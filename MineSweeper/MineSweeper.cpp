@@ -1,7 +1,8 @@
 #include "stdafx.h"
-#include "minesweeping.h"
+#include "MineSweeper.h"
+#include "MineButton.h"
 
-MineSweeping::MineSweeping(QWidget *parent)
+MineSweeper::MineSweeper(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
@@ -10,11 +11,11 @@ MineSweeping::MineSweeping(QWidget *parent)
 	// action
 	auto newAction = new QAction(tr("&New"), this);
 	newAction->setShortcut(QKeySequence::New);
-	connect(newAction, &QAction::triggered, this, &MineSweeping::newGame);
+	connect(newAction, &QAction::triggered, this, &MineSweeper::newGame);
 	auto exitAction = new QAction(tr("&Exit"), this);
 	exitAction->setShortcuts(QKeySequence::Quit);
 	exitAction->setShortcuts(QKeySequence::Cancel);
-	connect(exitAction, &QAction::triggered, this, &MineSweeping::close);
+	connect(exitAction, &QAction::triggered, this, &MineSweeper::close);
 
 	// menu
 	auto startMenu = ui.menuBar->addMenu(tr("&Start"));
@@ -22,33 +23,39 @@ MineSweeping::MineSweeping(QWidget *parent)
 	startMenu->addAction(exitAction);
 }
 
-bool MineSweeping::newGame()
+bool MineSweeper::newGame()
 {
 	bool ok;
-	auto in_w = QInputDialog::getInt(this, tr("input"), tr("width"), 10, 1, 100, 1, &ok);
-	auto in_h = QInputDialog::getInt(this, tr("input"), tr("height"), 10, 1, 100, 1, &ok);
-	auto in_c = QInputDialog::getInt(this, tr("input"), tr("mine number"), 10, 1, 10000, 1, &ok);
+	auto in_w = QInputDialog::getInt(this, tr("input"), tr("width"), 9, 9, 30, 1, &ok);
+	auto in_h = QInputDialog::getInt(this, tr("input"), tr("height"), 9, 9, 24, 1, &ok);
+	auto in_c = QInputDialog::getInt(this, tr("input"), tr("mine number"), 10, 10, (in_w - 1)*(in_h - 1), 1, &ok);
 	if (!setMap(in_w, in_h, in_c))
 		return false;
-	auto map = generateMap();
+	auto minesMap = newMap();
 	auto layout = new QGridLayout;
+	for (int i = 0; i < w; ++i)
+	{
+		for (int j = 0; j < h; ++j)
+		{
+			MineButton *btn = new MineButton(this);
+			btn->setFixedSize(20, 20);
+			btn->setNumber(minesMap.value(i*w + j));
+			btn->setObjectName(QString("%1, %2").arg(i).arg(j));
+			layout->addWidget(btn, i, j);
+		}
+	}
 	layout->setVerticalSpacing(0);
 	layout->setHorizontalSpacing(0);
 	layout->setContentsMargins(0, 0, 0, 0);
-	for (int i = 0; i < map.size(); ++i)
-	{
-		QPushButton *btn = new QPushButton(this);
-		btn->setFixedSize(20, 20);
-		btn->setText(QString::number(map.value(i)));
-		layout->addWidget(btn, i / w, i%w);
-	}
 	ui.centralWidget->setLayout(layout);
 }
 
-QMap<int, int> MineSweeping::generateMap() const
+QMap<int, int> MineSweeper::newMap() const
 {
 	int area = w * h;
-	QMap<int, int> map;  //if value is -1, the place has mine;
+	QMap<int, int> map;
+
+	// add nMine random mines to the map
 	while (map.size() != nMine)
 	{
 		qsrand(QTime::currentTime().msecsSinceStartOfDay());
@@ -59,7 +66,8 @@ QMap<int, int> MineSweeping::generateMap() const
 		}
 		map[mine] = -1;
 	}
-	auto mines = map.keys();  // mines' list
+
+	// calculate the number of each location
 	for (int i = 0; i < w; ++i)
 	{
 		for (int j = 0; j < h; ++j)

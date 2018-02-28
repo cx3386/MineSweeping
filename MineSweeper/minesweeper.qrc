@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/minesweeper">
+        <file>Resources/flag.png</file>
+        <file>Resources/mine.png</file>
+        <file>Resources/question.png</file>
+    </qresource>
+</RCC>

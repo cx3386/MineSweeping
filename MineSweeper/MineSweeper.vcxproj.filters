@@ -36,16 +36,13 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="minesweeping.cpp">
+    <ClCompile Include="MineSweeper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_minesweeping.cpp">
+    <ClCompile Include="GeneratedFiles\Debug\moc_MineSweeper.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_minesweeping.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qrc_minesweeping.cpp">
+    <ClCompile Include="GeneratedFiles\qrc_minesweeper.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,22 +50,22 @@
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_minesweeping.h">
+    <ClInclude Include="GeneratedFiles\ui_minesweeper.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="minesweeping.h">
+    <CustomBuild Include="MineSweeper.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="minesweeping.ui">
+    <CustomBuild Include="minesweeper.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="minesweeping.qrc">
+    <CustomBuild Include="minesweeper.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="MineSweeping.rc" />
+    <ResourceCompile Include="MineSweeper.rc" />
   </ItemGroup>
 </Project>

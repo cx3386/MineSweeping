@@ -1,23 +1,28 @@
 #pragma once
 
 #include <QtWidgets/QMainWindow>
-#include "ui_minesweeping.h"
+#include "ui_minesweeper.h"
 
-class MineSweeping : public QMainWindow
+class MineSweeper : public QMainWindow
 {
 	Q_OBJECT
 
 public:
-	MineSweeping(QWidget *parent = Q_NULLPTR);
+	MineSweeper(QWidget *parent = Q_NULLPTR);
 	inline bool setMap(int mapWidth, int mapHeight, int mineCount)
 	{
 		if (mapWidth < 1 || mapHeight < 1 || mineCount >= mapHeight * mapWidth) return false;
 		w = mapWidth; h = mapHeight; nMine = mineCount; return true;
 	}
 private:
-	Ui::MineSweepingClass ui;
+	Ui::minesweeperClass ui;
 	bool newGame();
-	QMap<int, int> generateMap() const;
+	/**
+	 * \brief generate a random mines map.
+	 * key is the location, value is the number; if number=-1, this location has mine;
+	 *
+	 */
+	QMap<int, int> newMap() const;
 	int w;
 	int h;
 	int nMine;
